@@ -4,8 +4,9 @@ interface Props {
   className: string;
 }
 
+// why do we need this line here to stop the error instead of fixing it?
 /* @ts-expect-error */
-export const Button = (props: Props) => {
+export const Button: React.FC<Props> = (props) => {
   return {
     ohDear: "123",
   };
