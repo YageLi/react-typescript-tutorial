@@ -1,8 +1,11 @@
 import { ComponentProps } from "react";
 import { Equal, Expect } from "../helpers/type-utils";
 
+// Omit<> wrap the Type in omit, and pass the key you want to remove
+
+// remove onChange and overWrite it
 export const Input = (
-  props: ComponentProps<"input"> & { onChange: (value: string) => void }
+  props: Omit<ComponentProps<"input">, "onChange"> & { onChange: (value: string) => void }
 ) => {
   return (
     <input
