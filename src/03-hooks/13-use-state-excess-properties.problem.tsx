@@ -4,6 +4,22 @@ interface TagState {
   tagSelected: number | null;
   tags: { id: number; value: string }[];
 }
+type GetTagState = () => TagState;
+
+
+// this one is not throwing typescript error is because the type check
+// is more loose, and it is the check the function type 
+const getTagState: GetTagState = () =>({
+  tagSelected:1,
+  tags:[],
+  foo:124
+})
+
+// in this one -- adding TagState will check the return value type. 
+const getTagState2: GetTagState = (): TagState =>({
+  tagSelected:1,
+  tags:[],
+})
 
 export const Tags = () => {
   const [state, setState] = useState<TagState>({
@@ -17,10 +33,9 @@ export const Tags = () => {
           <button
             key={tag.id}
             onClick={() => {
-              setState((currentState) => ({
+              setState((currentState) : TagState => ({
                 ...currentState,
-                // @ts-expect-error
-                tagselected: tag.id,
+                tagSelected: tag.id,
               }));
             }}
           >
@@ -30,15 +45,13 @@ export const Tags = () => {
       })}
       <button
         onClick={() => {
-          setState((currentState) => ({
+          setState((currentState): TagState => ({
             ...currentState,
             tags: [
               ...currentState.tags,
               {
                 id: new Date().getTime(),
                 value: "New",
-                // @ts-expect-error
-                otherValue: "something",
               },
             ],
           }));
